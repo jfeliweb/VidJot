@@ -1,0 +1,22 @@
+{
+  "name": "vidjot",
+  "version": "1.0.0",
+  "description": "App to create Video Ideas",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jfeliweb/VidJot.git"
+  },
+  "author": "Jeazy Baby",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jfeliweb/VidJot/issues"
+  },
+  "homepage": "https://github.com/jfeliweb/VidJot#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
