@@ -1,7 +1,25 @@
 const express = require('express'),
-  exphbs = require('express-handlebars');
+  exphbs = require('express-handlebars'),
+  mongoose = require('mongoose');
 
 const app = express();
+
+// Map global promise - get rid of warning
+mongoose.Promise = global.Promise;
+// Connect to mongoose
+mongoose.connect('mongodb://mongo:27017/vidjot-dev', {
+  useMongoClient: true
+}).then(() => {
+  //connected successfully
+  console.log('Successfully connected to database');
+}, (err) => {
+  //err handle
+  console.log('Not connected to database ' + err);
+});
+
+// Load Idea Model
+require('./models/ideas');
+const Idea = mongoose.model('ideas');
 
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
