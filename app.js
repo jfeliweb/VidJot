@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Static folder
-app.use(express.static(path.join(_dirname, 'public')));
+//app.use(express.static(path.join(_dirname, 'public')));
 
 // Method override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
