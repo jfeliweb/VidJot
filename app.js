@@ -1,5 +1,8 @@
 const express = require('express'),
   exphbs = require('express-handlebars'),
+  methodOverride = require('method-override'),
+  flash = require('connect-flash'),
+  session = require('express-session'),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose');
 
@@ -32,6 +35,27 @@ app.set('view engine', 'handlebars');
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Method override with POST having ?_method=DELETE
+app.use(methodOverride('_method'));
+
+// Express Session Middleware
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}));
+
+// Connect Flash Middleware
+app.use(flash());
+
+// Global Variables
+app.use(function(req, res, next) {
+  res.locals.seccess_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+})
 
 // Index Route
 app.get('/', (req, res) => {
@@ -99,11 +123,34 @@ app.post('/ideas', (req, res) => {
     new Idea(newUser)
     .save()
     .then(idea => {
+      req.flash('success_msg', 'Video Idea Added');
       res.redirect('/ideas');
     });
   }
 });
 
+// Edit Form Process
+app.put('/ideas/:id', (req, res) => {
+  Idea.findOne({
+    _id: req.params.id
+  }).then(idea => {
+    idea.title = req.body.title;
+    idea.details = req.body.details;
+
+    idea.save().then(idea => {
+      req.flash('success_msg', 'Video Idea Updated');
+      res.redirect('/ideas');
+    })
+  });
+});
+
+// Delete Idea
+app.delete('/ideas/:id', (req, res) => {
+  Idea.deleteOne({_id: req.params.id}).then(() => {
+    req.flash('success_msg', 'Video Idea Removed');
+    res.redirect('/ideas')
+  });
+});
 
 const port = 5000;
 
