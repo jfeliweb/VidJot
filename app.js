@@ -1,4 +1,5 @@
 const express = require('express'),
+  path = require('path'),
   exphbs = require('express-handlebars'),
   methodOverride = require('method-override'),
   flash = require('connect-flash'),
@@ -37,6 +38,9 @@ app.set('view engine', 'handlebars');
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Static folder
+app.use(express.static(path.join(_dirname, 'public')));
 
 // Method override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
