@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Static folder
-//app.use(express.static(path.join(_dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Method override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
@@ -56,6 +56,10 @@ app.use(session({
   saveUninitialized: true
 }));
 
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Connect Flash Middleware
 app.use(flash());
 
@@ -64,6 +68,7 @@ app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
   next();
 });
 
