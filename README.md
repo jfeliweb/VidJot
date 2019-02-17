@@ -20,3 +20,14 @@ after mongoose is done installing docker up
 ```
 docker-compose up
 ```
+
+### Helpful CMD
+* Get into mongo on windows
+- Get container id
+```
+docker container ls
+```
+- access mongo cli
+```
+winpty docker exec -it <container-id> //bin//sh
+```
